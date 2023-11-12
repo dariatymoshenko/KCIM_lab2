@@ -110,6 +110,7 @@ end
 - **%slow-twitch-fibers**: 50;
 - **genetic-predisposition**: 10;
 - **deviation-probability**: 10;
+- **intensity**: 95;
 - **quality-of-food**: 100%.
 <table>
 <thead>

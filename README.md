@@ -51,9 +51,9 @@ to setup
   set-default-shape muscle-fibers "circle"
   initialize-hormones
   new-muscle-fibers
-  set hours-of-sleep (hours-of-sleep - (hours-of-sleep / 100 * deviation-measure))/ 100 * deviation-probability
-  set days-between-workouts (days-between-workouts - (days-between-workouts / 100 * deviation-measure))/ 100 * deviation-probability
-  set intensity (intensity - (intensity / 100 * deviation-measure))/ 100 * deviation-probability
+  set hours-of-sleep (hours-of-sleep - (hours-of-sleep / 100 * deviation-measure / 100 * deviation-probability))
+  set days-between-workouts (days-between-workouts - (days-between-workouts / 100 * deviation-measure / 100 * deviation-probability))
+  set intensity (intensity - (intensity / 100 * deviation-measure / 100 * deviation-probability))
   set muscle-mass sum [fiber-size] of muscle-fibers
   reset-ticks
 end
@@ -100,5 +100,4 @@ end
 <br>
 
 ## Обчислювальні експерименти
-*// тут повинен бути наведений опис одного експерименту, за аналогією з першої л/р.* 
 ### 1. Вплив міри та вірогідності тимчасового відхилення параметрів інтенсивносі, кількості годин сну та днів між тренуваннями на зріст м'язових волокон

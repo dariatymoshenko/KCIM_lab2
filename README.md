@@ -66,7 +66,7 @@ end
 Для цього була створена нова процедура genetic. 
 <pre>
 to genetic
-  ;; simulate hormonal effect of sleeping
+  ;; simulate hormonal effect of human genetic
   ask patches [
     set catabolic-hormone catabolic-hormone - 0.3 * genetic-predisposition
     set anabolic-hormone  anabolic-hormone - 0.4 * genetic-predisposition

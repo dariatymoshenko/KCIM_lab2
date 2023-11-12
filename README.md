@@ -46,11 +46,19 @@ end
 **Додано регулюємі користувачем параметри, що визначають вірогідність та міру тимчасового відхилення від вказаних початкових значень інтенсивності тренувань, кількості годин сну та днів між тренуваннями**
 Тимчасова міра визначає негативне віхилення від значень. Додано до процедури setup:
 <pre>
-set hours-of-sleep (hours-of-sleep - (hours-of-sleep / 100 * deviation-measure))/ 100 * deviation-probability
+to setup
+  clear-all
+  set-default-shape muscle-fibers "circle"
+  initialize-hormones
+  new-muscle-fibers
+  set hours-of-sleep (hours-of-sleep - (hours-of-sleep / 100 * deviation-measure))/ 100 * deviation-probability
   set days-between-workouts (days-between-workouts - (days-between-workouts / 100 * deviation-measure))/ 100 * deviation-probability
   set intensity (intensity - (intensity / 100 * deviation-measure))/ 100 * deviation-probability
+  set muscle-mass sum [fiber-size] of muscle-fibers
+  reset-ticks
+end
 </pre>
-
+Формула була створена таким чином-знаходимо процент міри тимчасового відхилення від заданих параметрів, віднімаємо від початкового значення параметру та множимо на процент вірогідності такого відхилення.
 
 ### Внесені зміни у вихідну логіку моделі, на власний розсуд:
 
@@ -143,7 +151,7 @@ end
 
 ![Скріншот моделі в процесі симуляції](example-model.png)
 
-Фінальний код моделі та її інтерфейс доступні за [посиланням](example-model.nlogo). *// якщо вносили зміни до інтерфейсу середовища моделювання - то експорт потрібен у форматі nlogo, як тут. Інакше, якщо змінювався лише код логіки моделі, достатньо викласти лише його, як [тут](example-model-code.html),якщо експортовано з десктопної версії NetLogo, або окремим текстовим файлом, шляхом копіпасту з веб-версії*.
+Фінальний код моделі та її інтерфейс доступні за [посиланням](Muscle Development.nlogo).
 <br>
 
 ## Обчислювальні експерименти

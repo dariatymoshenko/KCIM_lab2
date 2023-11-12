@@ -12,7 +12,7 @@
 ### Внесені зміни у вихідну логіку моделі, за варіантом:
 
 **Додано вплив харчування на можливість зростання м'язової маси.**
-Для цього була створена нова процедура quality-food:
+Для цього була створена нова процедура quality-food. Якість їжі є одним з найголовніших параметрів при наборі м'яз, тому, чим здоровіша їжа, тим більший набір маси.
 <pre>
 to quality-food
   ;; simulate hormonal effect of healthy food
@@ -22,60 +22,35 @@ to quality-food
   ]
 end
 </pre>
-Та додана до процедури go.
-
-**Встановлення ліміту максимальної швидкості для кожної машини здійснюється індивідуально**, а не однаково для всіх машин:
+Та додана до процедури go:
 <pre>
-;; set speed-limit 1
-set speed-limit get-random-float 1.1 0.9
-</pre>
-Використовується кольорова диференціація машин залежно від їхньої швидкісного ліміту:
-<pre>
-  ;; set label speed-limit
-  if(speed-limit > 1.2) [
-      set color green
-  ]
-   if(speed-limit > 1.5) [
-     set color red
-  ]
-
-  ;; ask sample-car [ set color red ]
-</pre>
-Сині найповільніші, зелені швидше, червоні найшвидші.  
-Забарвлення обраної для відстеження машини скасовано.
-
-**Зміна логіки гальмування та набору швидкості** залежно від наявності перешкоди перед машиною:
-<pre>
-  let car-ahead-1 one-of turtles-on patch-ahead 1
-    let car-ahead-2 one-of turtles-on patch-ahead 2
-    ifelse car-ahead-1 = nobody and car-ahead-2 = nobody
-      [ speed-up-car ] ;; otherwise, speed up
-      [ slow-down-car car-ahead-1 car-ahead-2 ]
-    ;; don't slow down below speed minimum or speed up beyond speed limit
-    if speed < speed-min [ set speed speed-min ]
-    if speed > speed-limit [ set speed speed-limit ]
-    fd speed
-</pre>
-Для цього також були внесені зміни до процедури slow-down-car, яка спрацьовує при гальмуванні:
-<pre>
-to slow-down-car [ car-ahead-1 car-ahead-2 ] ;; turtle procedure
-  if (car-ahead-1 != nobody) 
-  [
-      let speed-car-ahead-1 [ speed ] of car-ahead-1
-      ;; slow down so you are driving more slowly than the car ahead of you
-      set speed speed-car-ahead-1 - deceleration
-      stop
-  ]
-  ]  
-  if (car-ahead-2 != nobody) [
-    let speed-car-ahead-2 [ speed ] of car-ahead-2
-    let speed-difference-ahead-2 abs speed - speed-car-ahead-2
-    set speed speed - speed-difference-ahead-2 / 2
-  ]
+to go
+  ;; note the use of the LOG primitive in the procedures called below
+  ;; to simulate a natural system's tendency to adapt less and less
+  ;; to each additional unit of some biological substance
+  perform-daily-activity
+  if lift? and (ticks mod days-between-workouts = 0)
+    [ lift-weights ]
+  sleep
+  genetic
+  quality-food
+  regulate-hormones
+  develop-muscle
+  set muscle-mass sum [fiber-size] of muscle-fibers
+  tick
 end
+</pre> 
+В інтерфейсі була оголошена глабольна змінна quality-of-food та додан повзунок до інтерфейсу:
+![Повзунок якості їжі](task1.png)
+
+**Додано регулюємі користувачем параметри, що визначають вірогідність та міру тимчасового відхилення від вказаних початкових значень інтенсивності тренувань, кількості годин сну та днів між тренуваннями**
+Тимчасова міра визначає негативне віхилення від значень. Додано до процедури setup:
+<pre>
+set hours-of-sleep (hours-of-sleep - (hours-of-sleep / 100 * deviation-measure))/ 100 * deviation-probability
+  set days-between-workouts (days-between-workouts - (days-between-workouts / 100 * deviation-measure))/ 100 * deviation-probability
+  set intensity (intensity - (intensity / 100 * deviation-measure))/ 100 * deviation-probability
 </pre>
 
-<br>
 
 ### Внесені зміни у вихідну логіку моделі, на власний розсуд:
 
